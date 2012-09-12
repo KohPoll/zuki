@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Class Test Runner</title>
+
+  <link rel="stylesheet" href="../../../tools/jasmine-1.2.0/jasmine.css">
+  <script src="../../../tools/jasmine-1.2.0/jasmine.js"></script>
+  <script src="../../../tools/jasmine-1.2.0/jasmine-html.js"></script>
+
+  <script src="../class.js"></script>
+  <script src="class-spec.js"></script>
+</head>
+
+<body>
+  <h1>Class Test Runner</h1>
+  
+  <script>
+     var jasmineEnv = jasmine.getEnv();
+     jasmineEnv.addReporter(new jasmine.TrivialReporter());
+     jasmineEnv.execute();
+  </script>
+</body>
+</html>

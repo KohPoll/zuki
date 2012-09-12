@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+
+  <title>Class Demo</title>
+  <script src="class.js"></script>
+</head>
+
+<body>
+<script>
+// var Class = {
+//   create: function () {
+//     var supr = Object;
+//     var protoProps = arguments[0] || {};
+//     var klass;
+// 
+//     if (typeof arguments[0] == 'function') {
+//       supr = arguments[0];
+//       protoProps = arguments[1] || {};
+//     }
+// 
+//     if (typeof protoProps.initialize != 'function') {
+//       protoProps.initialize = function () {};
+//     } 
+// 
+//     klass = this._construct();
+//     this._inherits(klass, supr, protoProps);
+// 
+//     return klass;
+//   },
+//   _construct: function () {//{{{
+//     var slice = Array.prototype.slice;
+// 
+//     // 构造器
+//     var Klass = function () {
+//       // 访问父类成员快捷方式
+//       this.$super = function (name) {
+//         var args = slice.call(arguments, 1) || [];
+//         var fn = Klass.$super[name];
+//         return typeof fn == 'function' ? fn.apply(this, args) : fn;
+//       };
+// 
+//       this.initialize.apply(this, arguments);
+//     };
+// 
+//     // 添加实列成员(属性,方法)
+//     Klass.include = function (obj) {
+//       for (var name in obj) {
+//         this.prototype[name] = obj[name];
+//       }
+// 
+//       return this;
+//     };
+// 
+//     return Klass;
+//   },//}}}
+//   _inherits: function (klass, supr, protoProps) {//{{{
+//     // 用于共享原型的空函数
+//     var F = function () {};
+// 
+//     // 重写原型实现继承
+//     F.prototype = supr.prototype;
+//     klass.prototype = new F();
+// 
+//     // 保存父类原型
+//     klass.$super = supr.prototype;
+// 
+//     // 添加实列成员、类成员
+//     klass.include(protoProps);
+// 
+//     // 设置构造器的constructor(因为重写了原型)
+//     klass.prototype.constructor = klass;
+// 
+//     return klass;
+//   }//}}}
+// };
+</script>
+
+<script>
+// var construct = function () {
+//   var slice = Array.prototype.slice;
+// 
+//   // 构造器
+//   var Klass = function () {
+//     this.initialize.apply(this, arguments);
+//   };
+// 
+//   // 用于添加类成员(属性,方法)
+//   Klass.extend = function (obj) {
+//     for (var name in obj) {
+//       this[name] = obj[name];
+//     }
+// 
+//     return this;
+//   };
+// 
+//   // 添加实列成员(属性,方法)
+//   Klass.include = function (obj) {
+//     for (var name in obj) {
+//       this.prototype[name] = obj[name];
+//     }
+// 
+//     return this;
+//   };
+// 
+//   return Klass;
+// };
+// 
+// var inherits = function (klass, supr, protoProps, staticProps) {
+//   // 用于共享原型的空函数
+//   var F = function () {};
+// 
+//   // 重写原型实现继承
+//   F.prototype = supr.prototype;
+//   klass.prototype = new F();
+// 
+//   // 添加实列成员、类成员
+//   klass.include(protoProps).extend(staticProps);
+// 
+//   // 设置构造器的constructor(因为重写了原型)
+//   klass.prototype.constructor = klass;
+// 
+//   return klass;
+// };
+</script>
+
+<script>
+var Engineer = Class.create({
+  initialize: function (name) {
+    this.name = name;
+  },
+  codeWith: function (tools) {
+    return this.name + ' is coding with ' + tools.join(','); 
+  },
+  solve: function (problem) {
+    return this.name + ' is solving ' + problem;
+  }
+});
+
+var FrontEndEngineer = Class.create(Engineer, {
+  initialize: function (name) {
+    this.$super('initialize', name);
+    // this.name = name;
+  },
+  codeWith: function (tools) {
+    return 'front end ' + this.$super('codeWith', tools);
+  },
+  solve: function (problem) {
+    return 'front end ' + this.$super('codeWith', ['html', 'js', 'css']) + this.fuckIE6();
+  },
+  fuckIE6: function () {
+    return ' and fuck ie6';
+  }
+});
+
+var a = new FrontEndEngineer('kohpoll');
+console.log(a.solve('work'));
+
+// var b = new FrontEndEngineer('xp');
+// 
+// console.log(a, b);
+// console.log(a.codeWith(['vim']));
+// console.log(a.fuckIE6());
+// console.log(a instanceof Engineer, a instanceof FrontEndEngineer);
+
+</script>
+</body>
+</html>
