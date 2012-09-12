@@ -7,6 +7,35 @@
 (function (global, undefined) {
 
   var Class = {
+    /*
+     * 生成构造器
+     *
+     * var Parent = Class.create({
+     *  initialize: function () { ... },
+     *  // instance property ...
+     * }, {
+     *  // statice property
+     * });
+     *
+     * var Child = Class.create(Parent, {
+     *  initialize: functon () { ... },
+     *  // instance property ...
+     *
+     *  => 访问类成员(属性,方法)
+     *  this.$self.attr
+     *  this.$self.method()
+     *
+     *  => 访问父类方法
+     *  this.$super('method', args...)
+     * }, {
+     *  // statice property ...
+     * });
+     *
+     * Child.include({ //instance property }).extend({ //static property });
+     *
+     * var o = new Child();
+     *
+     */
     create: function () {
       var supr = Object;
       var protoProps = arguments[0] || {}, staticProps = arguments[1] || {};
