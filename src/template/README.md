@@ -9,9 +9,7 @@
 In the template string, the template tag begins with `{`, and ends with `}`.      
 It has the format as follows:  
 `{tagName tagArguments}`  
-
-
-note: there is a (or more) white space between tagName and tagArguments.  
+*there is a (or more) white space between tagName and tagArguments.*  
 
 ### Comments
 `{# comments}`  
@@ -19,27 +17,27 @@ e.g: `{# this is a comment string.}`
 
 ### Expression & Escaped Expression
 
-`{= expr}`  
+- `{= expr}`  
 expr can be any expression that generated the value.  
 e.g: `{= 'hello ' + 'world,' + name}`, `{= say() + ' world'}`, `{= $helper.date()}`   
-note:  
 * in the function calls, `this` refer to the render data.
 * in the expr, you can access view helper(say below) with `$helper`.
 
 
-`{e= expr}`
+- `{e= expr}`
 the escaped version of `{= expr}`.The *<*,*>*,*"*,*&* in the template string will be escaped.  
 e.g: `{e= "<script>alert('hello');<\/script>"}`  
-*note: you may need to use the `\` to escape the special chars.*
+*you may need to use the `\` to escape the special chars.*
 
 
-syntax sugars: you can use the ${expr} to replace {= expr}, and $${expr} to replace {e= expr}.
+- syntax sugars 
+you can use the `${expr}` to replace `{= expr}`, and `$${expr}` to replace `{e= expr}`.
 
 ### Statement
 
 Just like the html tags, `{tag}...{/tag}`.
 
-#### Condition
+#### Condition(if/else)
 
     {if condition}
       ...
@@ -59,7 +57,7 @@ Just like the html tags, `{tag}...{/tag}`.
       ...
     {/if}
 
-#### Choice
+#### Choice(switch/case)
 
     {choose choices}
       {when getA}
@@ -70,7 +68,7 @@ Just like the html tags, `{tag}...{/tag}`.
       {/when}
     {/choose}
 
-#### Loop
+#### Loop(for)
     
     {each list}
       ${$index} - ${$value} - ${$sum}

@@ -205,7 +205,7 @@
       code += write(elements[i]);
     }
 
-    console.log('compile', code);
+    // console.log('compile', code);
     return code;
   };//}}}
 
