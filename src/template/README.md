@@ -9,27 +9,37 @@
 In the template string, the template tag begins with `{`, and ends with `}`.      
 It has the format as follows:  
 `{tagName tagArguments}`  
+
 *there is a (or more) white space between tagName and tagArguments.*  
 
 ### Comments
-`{# comments}`  
+
+####`{# comments}`  
+
 e.g: `{# this is a comment string.}`  
 
 ### Expression & Escaped Expression
 
 #### `{= expr}`  
+
 expr can be any expression that generated the value.  
+
 e.g: `{= 'hello ' + 'world,' + name}`, `{= say() + ' world'}`, `{= $helper.date()}`   
-  - in the function calls, `this` refer to the render data.
-  - in the expr, you can access view helper(say below) with `$helper`.
+
+- in the function calls, `this` refer to the render data.
+- in the expr, you can access view helper(say below) with `$helper`.
 
 #### `{e= expr}`
+
 the escaped version of `{= expr}`.The *<*,*>*,*"*,*&* in the template string will be escaped.  
+
 e.g: `{e= "<script>alert('hello');<\/script>"}`  
+
 *you may need to use the `\` to escape the special chars.*
 
 
 #### syntax sugars 
+
 you can use the `${expr}` to replace `{= expr}`, and `$${expr}` to replace `{e= expr}`.
 
 ### Statement
@@ -80,6 +90,7 @@ Just like the html tags, `{tag}...{/tag}`.
 ## Custom
 
 ### Add the new statement
+
     Template
       .addStatement('while', function (args) {
         return 'while (' + args + ') {\n';
@@ -91,6 +102,7 @@ Just like the html tags, `{tag}...{/tag}`.
 Then, you can use `{while counter-- != 0}${counter}!{/while}`.
 
 ### Add the view helper
+
     Template
       .addHelper('date', function (timestamp) {
         var d = new Date(timestamp);
