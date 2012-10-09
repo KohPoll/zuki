@@ -17,20 +17,19 @@ e.g: `{# this is a comment string.}`
 
 ### Expression & Escaped Expression
 
-- `{= expr}`  
+#### `{= expr}`  
 expr can be any expression that generated the value.  
 e.g: `{= 'hello ' + 'world,' + name}`, `{= say() + ' world'}`, `{= $helper.date()}`   
-* in the function calls, `this` refer to the render data.
-* in the expr, you can access view helper(say below) with `$helper`.
+  - in the function calls, `this` refer to the render data.
+  - in the expr, you can access view helper(say below) with `$helper`.
 
-
-- `{e= expr}`
+#### `{e= expr}`
 the escaped version of `{= expr}`.The *<*,*>*,*"*,*&* in the template string will be escaped.  
 e.g: `{e= "<script>alert('hello');<\/script>"}`  
 *you may need to use the `\` to escape the special chars.*
 
 
-- syntax sugars 
+#### syntax sugars 
 you can use the `${expr}` to replace `{= expr}`, and `$${expr}` to replace `{e= expr}`.
 
 ### Statement
