@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+
+  <title>Template Demo</title>
+
+  <script src="template.js"></script>
+</head>
+<body>
+  <script>
+    var s1 = '\n'
+    + 'expr{{= a}}..\n'
+    + 'escape expr{{=e a}}\n'
+
+    + '{{if test}}\n'
+    + 'if{{= a}}\n'
+    + '{{elif test}}\n'
+    + 'else if\n'
+    + '{{else}}\n'
+    + 'else\n'
+    + '{{end}}\n'
+
+    + '{{each list}}\n'
+    + '{{= item}}\n'
+    + '{{end}}\n'
+
+    + '{{choose con}}\n'
+    + '{{when a}}item{{= a}}{{end}}\n'
+    + '{{when b}}item{{= b}}{{end}}\n'
+    + '{{end}}\n';
+
+    var s2 = '\n'
+    + 'hello\n'
+    + '{{if test}}\n'
+    + 'if{{= a}}...\n'
+    + '{{end}}\n'
+    + 'world\n';
+
+    var s3 = '\n' 
+    + '{{choose con}}\n'
+    + '{{when a}}item{{= a}}{{end}}\n'
+    + '{{when b}}item{{= b}}{{end}}\n'
+    + '{{end}}\n';
+
+    // console.log('tmpl=>\n', s3);
+    var t = parse(s3);
+  </script>
+</body>
+</html>

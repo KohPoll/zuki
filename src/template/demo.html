@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+
+  <title>Template Demo</title>
+
+  <script src="template.js"></script>
+  <script src="../../tools/js-beautify.js"></script>
+</head>
+<body>
+  <script>
+    var d = {
+      a: '0',
+      b: '<b>&"',
+      c: 1,
+      x: 'x',
+      t: true,
+      list: ['a', 'b', 'c'],
+      f: function (n) {
+        return this.a + 'x';
+      },
+      counter: 5
+    };
+
+    var s = '\n'
+    + 'hello.\'..\'...\\"...\\"...\\\\...\/...'
+    + '{each list-> i, v, s}\n'
+    + 'item${i+v+s}..\n'
+    + '{/each}\n'
+
+    + '{# this is comments}\n'
+    + 'hello${a+"1\',\\",\\\\,\/"+f(1)+Math.PI}...\n'
+    + 'world$${b+"x"}...\n'
+
+    + '{if t}\n'
+    + 't${x}tttt\n'
+    + '{if t}abc{/if}\n'
+    + '{else}\n'
+    + 'else\n'
+    + '{/if}\n'
+    
+    + '{choose c}\n'
+    + '{when 1}111{/when}\n'
+    + '{when 2}222{/when}\n'
+    + '{/choose}\n'
+
+    + '{while counter-- != 0}\n'
+    + 'counter:${counter}...\n'
+    + '{/while}\n'
+
+    + 'date is ${$helper.date(223144544343)}....';
+
+    var s1 = 'hello world.\',,,\',,,\\"xxx\\",,,,\\"yy\\",,,\\\\xx\\\\.';
+    var s11 = '$${"<b>alert(\\"hello\\");<\/b>"}';
+
+    Template
+      .addStatement('while', function (args) {
+        return 'while (' + args + ') {\n';
+      })
+      .addStatement('/while', function (args) {
+        return '}\n';
+      });
+
+    Template.addHelper('date', function (timestamp) {
+      var d = new Date(timestamp);
+      return d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDay();
+    });
+
+    var r = Template('$${"<script>alert(\'hello\');<\/script>"}');
+    var c = js_beautify ? js_beautify(r.source, {indent_size: 2, indent_char: ' '}) : r.source;
+    console.log(c);
+    console.log(r.render(d));
+  </script>
+</body>
+</html>
