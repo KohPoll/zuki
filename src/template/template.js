@@ -15,7 +15,7 @@
 
   var elementReg = /\{([^}]*)\}/g;
   var variableReg = /\$\{([^}]*)\}/g;
-  var escapeVariableReg = /\$\${([^}]*)\}/g;
+  var escapeVariableReg = /\$!{([^}]*)\}/g;
 
   var syntaxElements = {//{{{
     'expr': {

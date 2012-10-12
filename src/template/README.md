@@ -40,7 +40,7 @@ e.g: `{e= "<script>alert('hello');<\/script>"}`
 
 #### syntax sugars 
 
-you can use the `${expr}` to replace `{= expr}`, and `$${expr}` to replace `{e= expr}`.
+you can use the `${expr}` to replace `{= expr}`, and `$!{expr}` to replace `{e= expr}`.
 
 ### Statement
 

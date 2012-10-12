@@ -31,7 +31,7 @@
 
     + '{# this is comments}\n'
     + 'hello${a+"1\',\\",\\\\,\/"+f(1)+Math.PI}...\n'
-    + 'world$${b+"x"}...\n'
+    + 'world$!{b+"x"}...\n'
 
     + '{if t}\n'
     + 't${x}tttt\n'
@@ -49,10 +49,10 @@
     + 'counter:${counter}...\n'
     + '{/while}\n'
 
-    + 'date is ${$helper.date(223144544343)}....';
+    + 'date is ${$helper.date(223144544343)}....\n';
 
     var s1 = 'hello world.\',,,\',,,\\"xxx\\",,,,\\"yy\\",,,\\\\xx\\\\.';
-    var s11 = '$${"<b>alert(\\"hello\\");<\/b>"}';
+    var s11 = '$!{"<b>alert(\\"hello\\");<\/b>"}';
 
     Template
       .addStatement('while', function (args) {
@@ -67,7 +67,8 @@
       return d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDay();
     });
 
-    var r = Template('$${"<script>alert(\'hello\');<\/script>"}');
+    // var r = Template('$!{"<script>alert(\'hello\');<\/script>"}');
+    var r = Template(s);
     var c = js_beautify ? js_beautify(r.source, {indent_size: 2, indent_char: ' '}) : r.source;
     console.log(c);
     console.log(r.render(d));
