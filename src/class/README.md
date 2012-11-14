@@ -2,9 +2,37 @@
 
 --- 
 
-## Usage
+## 用法
 
-### create class
+### 提供接口
+
+`Class.create(Object instanceProps, Object staticProps) : Function`
+
+`Class.create(Function parentCls, Object instanceProps, Object staticProps) : Function`
+
+* 参数:
+  - `parentCls`: `Function` (当需要继承时,必须指定;否则不传入.默认的父类是Object构造函数)
+    新创建类的父类(即:当前类继承自它).
+
+  - `instanceProps`: `Object` (可选,可以调用include方法设置)
+    类实例属性及方法,使用`initialize`来指定初始化构造方法.
+    在方法内,使用`$super`引用父类方法(属性);使用`$self`引用类方法(属性).
+
+  - `staticProps`: `Object` (可选,可以调用extend方法设置)
+    类属性及方法.
+    在方法内,使用`$self`引用类方法(属性).
+
+* 返回:
+  类构造器.使用new操作符来生成类实例.
+  类构造器还拥有以下方法(方法均返回类构造器本身，因此可以*链式调用*):
+    - `include(Object instanceProps)`
+      添加实例方法(属性)
+    - `extend(Object staticProps)`
+      添加类方法(属性)
+
+## 示例
+
+### 创建类
 
     var Engineer = Class.create({
       initialize: function (name) {
@@ -19,7 +47,7 @@
       }
     });
 
-### inherits class
+### 继承类
 
     var FrontEndEngineer = Class.create(Engineer, {
       initialize: function (name, age) {
@@ -48,7 +76,7 @@
       }
     });
 
-### instance
+### 构造类实例
 
     var engineer = new FrontEndEngineer('kohpoll', 23);
     console.log(engineer.say());

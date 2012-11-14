@@ -25,8 +25,12 @@
 
     var s = '\n'
     + 'hello.\'..\'...\\"...\\"...\\\\...\/...'
-    + '{each list-> i, v, s}\n'
+    + '{each list-> v, i, s}\n'
     + 'item${i+v+s}..\n'
+    + '{/each}\n'
+
+    + '{each list->item}\n'
+    + 'x-item-${item}....\n'
     + '{/each}\n'
 
     + '{# this is comments}\n'
@@ -51,6 +55,20 @@
 
     + 'date is ${$helper.date(223144544343)}....\n';
 
+    // var data = {
+    //   names: ['name1', 'name2', 'name3', 'name4']
+    // };
+    // var base = ''
+    // + '<h2>Names</h2>\n'
+    // + '{each names -> name}\n'
+    //   + '{include user}\n'
+    // + '{/each}\n';
+    // var user = '<strong>${name}</strong>\n';
+
+    // var tBase = Template(base, {user: user});
+    // console.log(tBase._source_);
+    // console.log(tBase.render(data));
+
     var s1 = 'hello world.\',,,\',,,\\"xxx\\",,,,\\"yy\\",,,\\\\xx\\\\.';
     var s11 = '$!{"<b>alert(\\"hello\\");<\/b>"}';
 
@@ -69,7 +87,7 @@
 
     // var r = Template('$!{"<script>alert(\'hello\');<\/script>"}');
     var r = Template(s);
-    var c = js_beautify ? js_beautify(r.source, {indent_size: 2, indent_char: ' '}) : r.source;
+    var c = js_beautify ? js_beautify(r._source_, {indent_size: 2, indent_char: ' '}) : r._source_;
     console.log(c);
     console.log(r.render(d));
   </script>

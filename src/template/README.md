@@ -2,6 +2,22 @@
 
 ---
 
+## Usage
+
+### Intialize
+
+    var tmpl = '...template string here...';
+    var t = Template(tmpl);
+
+### Render
+
+    var data = {a: 1, b: 2};
+    var result = t.render(data);
+
+### View Source
+
+    console.log(t.source);
+
 ## Syntax
 
 ### Basic Concept
@@ -80,11 +96,19 @@ Just like the html tags, `{tag}...{/tag}`.
 #### Loop(for)
     
     {each list}
-      ${$index} - ${$value} - ${$sum}
+      ${$index} - ${$value} - ${$length}
     {/each}
 
-    {each list -> order, item, stock}
-      ${order} - ${item} - ${stock}
+    {each list -> item}
+      ${$index} - ${item} - ${$length} 
+    {/each}
+
+    {each list -> item, num}
+      ${num} - ${item} - ${$length}
+    {/each}
+
+    {each list -> item, num, total}
+      ${num} - ${item} - ${total}
     {/each}
 
 ## Custom
@@ -110,19 +134,3 @@ Then, you can use `{while counter-- != 0}${counter}!{/while}`.
       });
 
 Then, you can use `date is ${$helper.date(223144544343)}...`.
-
-## Usage
-
-### Intialize
-
-    var tmpl = '...template string here...';
-    var t = Template(tmpl);
-
-### Render
-
-    var data = {a: 1, b: 2};
-    var result = t.render(data);
-
-### View Source
-
-    console.log(t.source);

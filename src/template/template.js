@@ -8,14 +8,16 @@
 (function (global, undefined) {
 
   if (!String.prototype.trim) {
-    String.prototype.trim = function(){ return this.replace(/^\s+/, '').replace(/\s+$/, ''); };
+    String.prototype.trim = function() { return this.replace(/^\s+/, '').replace(/\s+$/, ''); };
   }
 
   // var escapeStr = function (str) { return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"'); };
 
   var elementReg = /\{([^}]*)\}/g;
   var variableReg = /\$\{([^}]*)\}/g;
-  var escapeVariableReg = /\$!{([^}]*)\}/g;
+  var escapeVariableReg = /\$!\{([^}]*)\}/g;
+
+  var _caches = {};
 
   var syntaxElements = {//{{{
     'expr': {
@@ -52,17 +54,17 @@
 
       'each': function (args) {
         var list, listArgs;
-        var index, value, sum;
+        var index, value, length;
 
         args = args.split('->');
         list = args[0].trim();
         listArgs = (args[1] ? args[1].trim() : '').split(',');
 
-        index = listArgs[0] ? listArgs[0].trim() : '$index';
-        value = listArgs[1] ? listArgs[1].trim() : '$value';
-        sum = listArgs[2] ? listArgs[2].trim() : '$sum';
+        value = listArgs[0] ? listArgs[0].trim() : '$value';
+        index = listArgs[1] ? listArgs[1].trim() : '$index';
+        length = listArgs[2] ? listArgs[2].trim() : '$length';
 
-        return '$helper.each(' + list + ', ' + 'function (' + index + ', ' + value + ', ' + sum + ') {\n';
+        return '$helper.each(' + list + ', ' + 'function (' + index + ', ' + value + ', ' + length + ') {\n';
       },
       '/each': function (args) {
         return '});\n';
@@ -85,14 +87,19 @@
       };
       return s.replace(/["&<>]/g, function (match) { return escapes[match]; });
     },
-    'each': function (list, handler) {
-      for (var i=0,len=list.length; i<len; ++i) {
-        handler.call(list, i, list[i], len);
+    'each': function (list, callback) {
+      if (typeof list.length == 'number') {
+        for (var i=0,len=list.length; i<len; ++i) {
+          callback.call(list, i, list[i], len);
+        }
+      } else {
+        for (var k in list) {
+          callback.call(list, k, list[k]);
+        }
       }
+      return list;
     }
   };//}}}
-
-  var caches = {};
 
 
   /*
@@ -216,7 +223,7 @@
     var s = '';
 
     s += 'var __t__ = [];\n';
-    s += 'with ($data || {}) {\n';
+    s += 'with (__data__ || {}) {\n';
       s += 'try {\n';
         s += code;
       s += '} catch (e) {\n';
@@ -233,7 +240,7 @@
    */
   var source = function (renderer) {//{{{
     var s = '';
-    s += 'function ($data, $helper) {\n';
+    s += 'function ($helper) {\n';
       s += renderer;
     s += '}\n';
     return s;
@@ -241,38 +248,42 @@
 
 
   var Template = function (tmpl) {//{{{
-    var _renderer_, _render_;
+    var _renderer_, _source_;
+    var _render_;
 
-    if (!caches[tmpl]) {
-      // 预处理
-      tmpl = preproc(tmpl);
-
+    if (!_caches[tmpl]) {
       // 生成渲染器
       _renderer_ = 
         renderer(
           compile(
             parse(
-              tokenize(tmpl)
+              tokenize(
+                preproc(tmpl)
+              )
             )
           )
         );
 
+      // 生成源码
+      _source_ = source(_renderer_);
+
       // 构造渲染函数
       try {
-        _render_ = new Function('$data', '$helper', _renderer_);
+        _render_ = new Function('$helper', '__data__', _renderer_);
       } catch (e) {
         throw e;
       }
 
       // 缓存
-      caches[tmpl] = {
-        source: source(_renderer_),
-        render: function (data) { return _render_(data, helpers); }
+      _caches[tmpl] = {
+        _source_: _source_,
+        render: function (data) { return _render_(helpers, data); }
       };
     }
 
-    return caches[tmpl];
+    return _caches[tmpl];
   };//}}}
+
 
   /*
    * 添加新标记
